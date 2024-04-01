@@ -1,0 +1,25 @@
+name: Deploy Appwrite
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy Appwrite
+        run: |
+          docker run -it --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            --volume "$(pwd)"/appwrite:/usr/src/code/appwrite:rw \
+            --entrypoint="install" \
+            appwrite/appwrite:1.5.4
+
+      - name: ip 
+        run:  ifconfig
