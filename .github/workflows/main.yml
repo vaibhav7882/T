@@ -10,7 +10,7 @@ jobs:
 
       - name: Install Termius
         run: |
-          curl -fsSL https://get.termius.com/linux | sudo bash
+          curl -fsSL https://termius.com/download/linux | sudo bash
 
       - name: Setup SSH server (replace with actual setup commands)
         run: |
