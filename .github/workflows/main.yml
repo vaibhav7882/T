@@ -1,4 +1,4 @@
-name: Deploy Appwrite
+name: Enable SSH and Get IP
 
 on:
   push:
@@ -6,20 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  ssh-and-ip:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Enable SSH
+        run: sudo service ssh start
 
-      - name: Deploy Appwrite
+      - name: Get IP Address
+        id: get_ip
+        run: echo "::set-output name=ip_address::$(curl -s https://api.ipify.org)"
+
+      - name: Get Username
+        id: get_username
+        run: echo "::set-output name=username::$(whoami)"
+
+      - name: Print IP Address and Username
         run: |
-          docker run -it --rm \
-            --volume /var/run/docker.sock:/var/run/docker.sock \
-            --volume "$(pwd)"/appwrite:/usr/src/code/appwrite:rw \
-            --entrypoint="install" \
-            appwrite/appwrite:1.5.4
-
-      - name: ip 
-        run:  ifconfig
+          echo "IP Address: ${{ steps.get_ip.outputs.ip_address }}"
+          echo "Username: ${{ steps.get_username.outputs.username }}"
