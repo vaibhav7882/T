@@ -1,26 +1,27 @@
-name: Enable SSH and Get IP
-
-on:
-  push:
-    branches:
-      - main
+name: Setup and Connect Termius Tunnel
+on: [push, pull_request]
 
 jobs:
-  ssh-and-ip:
+  setup_tunnel:
     runs-on: ubuntu-latest
     steps:
-      - name: Enable SSH
-        run: sudo service ssh start
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Get IP Address
-        id: get_ip
-        run: echo "::set-output name=ip_address::$(curl -s https://api.ipify.org)"
-
-      - name: Get Username
-        id: get_username
-        run: echo "::set-output name=username::$(whoami)"
-
-      - name: Print IP Address and Username
+      - name: Install Termius
         run: |
-          echo "IP Address: ${{ steps.get_ip.outputs.ip_address }}"
-          echo "Username: ${{ steps.get_username.outputs.username }}"
+          curl -fsSL https://get.termius.com/linux | sudo bash
+
+      - name: Setup SSH server (replace with actual setup commands)
+        run: |
+          # Replace these commands with actual setup commands for SSH server
+          sudo apt-get update
+          sudo apt-get install -y openssh-server
+          sudo systemctl start ssh
+          sudo systemctl enable ssh
+          # Configure SSH server as needed
+
+      - name: Create SSH tunnel with Termius
+        run: |
+          termius login vghogare34@outlook.com Vaibhav@123&
+          termius ssh create --local-port=12345 --remote-port=22 
