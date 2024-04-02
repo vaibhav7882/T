@@ -21,5 +21,5 @@ jobs:
 
       - name: Start Ngrok SSH
         run: |
-          ngrok authtoken ${{ secrets.NGROK_AUTH_TOKEN }}
+          ngrok authtoken 2eYRlI6wC9kvgtop6dllNaZimM9_81BKjfQ7YHnfvvs89kFVJ
           ngrok tcp 22
