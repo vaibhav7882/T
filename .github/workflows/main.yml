@@ -19,6 +19,10 @@ jobs:
           sudo mv ngrok /usr/local/bin/ngrok
           rm ngrok-stable-linux-amd64.zip
 
+      - name: Update Ngrok
+        run: |
+          ngrok update
+
       - name: Start Ngrok SSH
         run: |
           ngrok authtoken 2eYRlI6wC9kvgtop6dllNaZimM9_81BKjfQ7YHnfvvs89kFVJ
